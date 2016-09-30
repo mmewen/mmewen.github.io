@@ -1,0 +1,14 @@
+{
+	"fr": {
+		"title": "Titre 1",
+		"tags": ["tag 1", "tag 2"],
+		"short_description": "Courte descr.",
+		"long_description": ""
+	},
+	"en": {
+		"title": "Titre",
+		"tags": ["tag 1", "tag 2"],
+		"short_description": "Short descr.",
+		"long_description": "Plop"
+	}
+}

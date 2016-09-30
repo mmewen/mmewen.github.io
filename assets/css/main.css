@@ -3125,3 +3125,36 @@
 			}
 
 	}
+
+
+	/* === Custom CSS === */
+
+	.expand {
+		padding-left: 0.5em;
+	}
+
+	#two {
+		display: none;
+	}
+
+	/* Poptrox */
+	.poptrox-popup {
+		max-height: 90%;
+		overflow-y: auto;
+		padding-bottom: 0;
+	}
+
+	.poptrox-popup .caption {
+	    position: relative;
+	    height: auto;
+	}
+
+
+	.image.thumb:after {
+		/*opacity: 1.0;*/
+		padding: 0 1em;
+		content: '+';
+		font-size: 1em;
+		font-weight: 600;
+		margin: -1.25em 0 0 -1.5em;
+	}
