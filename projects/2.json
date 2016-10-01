@@ -2,13 +2,15 @@
 	"fr": {
 		"title": "Titre 2",
 		"tags": ["tag 1", "tag 2"],
-		"short_description": "Courte descr.",
-		"long_description": "Une longue description"
+		"short_description": "Courte descr."
 	},
 	"en": {
 		"title": "Titre",
 		"tags": ["tag 1", "tag 2"],
-		"short_description": "Short descr.",
-		"long_description": "Plop"
+		"short_description": "Short descr."
+	},
+	"media": {
+		"type": "youtube",
+		"content": "https://youtu.be/QBs0nrghRyE"
 	}
 }

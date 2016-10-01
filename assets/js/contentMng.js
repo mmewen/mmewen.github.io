@@ -7,7 +7,7 @@
 	var PROJECTS_TXT_SUFFIX = '.html';
 	var PROJECT_TEMPLATE = "\
 		<article class='6u 12u$(xsmall) work-item'>\
-			<a href='images/fulls/{id}.jpg' class='image fit thumb' id='{id}'><img src='images/thumbs/{id}.jpg' alt='' /></a>\
+			<a href='{link}' data-poptrox='{poptroxData}' class='image fit thumb' id='{id}'><img src='images/thumbs/{id}.jpg' alt='' /></a>\
 			<h3>{title}</h3>\
 			<p>{short_description}</p>\
 		</article>\
@@ -66,7 +66,7 @@
 		for (var i = settings.possibleLanguages.length - 1; i >= 0; i--) {
 			var lang = settings.possibleLanguages[i];
 			var targetUrl = PROJECTS_PREFIX + nbProjects + "." + lang + PROJECTS_TXT_SUFFIX;
-			console.log(targetUrl);
+			// console.log(targetUrl);
 			nbRequestToComeBack++;
 			$.ajax({
 				url: targetUrl,
@@ -110,6 +110,18 @@
 
 		for (var i = 1; i < nbProjects; i++) {
 			var txt = PROJECT_TEMPLATE;
+
+			// Set media type
+			if (projects[i].media.type == "image") {
+				txt = txt.replace("{link}", "images/fulls/{id}.jpg");
+				txt = txt.replace("{poptroxData}", "");
+			} else {
+				txt = txt.replace("{poptroxData}", projects[i].media.type);
+				txt = txt.replace("{link}", projects[i].media.content);
+			}
+			
+
+			// Fill content of the project
 			txt = txt.replace(new RegExp("{id}", 'g'), i);
 			if (i%2==0) {
 				txt = txt.replace("6u", "6u$");
