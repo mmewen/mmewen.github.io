@@ -4,7 +4,7 @@
 
 	var PROJECTS_PREFIX = './projects/';
 	var PROJECTS_JSON_SUFFIX = '.json';
-	var PROJECTS_TXT_SUFFIX = '.html';
+	var PROJECTS_TXT_SUFFIX = '.txt';
 	var PROJECT_TEMPLATE = "\
 		<article class='6u 12u$(xsmall) work-item'>\
 			<a href='{link}' data-poptrox='{poptroxData}' class='image fit thumb' id='{id}'><img src='images/thumbs/{id}.jpg' alt='' /></a>\
@@ -14,7 +14,7 @@
 		";
 	var CAPTION_TEMPLATE = "\
 		<h3>{title}</h3>\
-		<span>{tags}</span>\
+		<div class='tags'>{tags}</div>\
 		<p>{long_description}</p>\
 		";
 	var ANIMATION_DURATION = 750;
@@ -120,16 +120,21 @@
 				txt = txt.replace("{link}", projects[i].media.content);
 			}
 			
-
-			// Fill content of the project
-			txt = txt.replace(new RegExp("{id}", 'g'), i);
+			// Set div to left of right
 			if (i%2==0) {
 				txt = txt.replace("6u", "6u$");
 			}
+
+			// Fill content of the project
+			var content = projects[i][settings.language];
+			// id
+			txt = txt.replace(new RegExp("{id}", 'g'), i);
+			// other
 			$.each(projects[i][settings.language], function(index, value) {
 				txt = txt.replace(new RegExp("{" + index + "}", 'g'), value);
 			});
 			// console.log(txt);
+			
 			$("#projects").append(txt);
 		}
 
@@ -155,6 +160,15 @@
 		var i = a[0].id;
 
 		var txt = CAPTION_TEMPLATE;
+		var content = projects[i][settings.language];
+
+		// Title
+		txt = txt.replace("{title}", content.title);
+		// Tags
+		var tags = content.tags.map(function(a){return '<span class="tag">'+a+'</span>'}).join('');
+		txt = txt.replace("{tags}", tags);
+		// long_description
+		txt = txt.replace("{long_description}", content.long_description.split(new RegExp("\\n\\n", 'g')).join("</p><p>").replace(new RegExp("\\n", 'g'), "<br/>"));
 		$.each(projects[i][settings.language], function(index, value) {
 			txt = txt.replace(new RegExp("{" + index + "}", 'g'), value);
 		});
@@ -165,7 +179,7 @@
 
 	// Puts and @ in the email address
 	var decipherMail = function () {
-		$(".email").attr("href", $(".email").attr("href").replace("---", "@"));
+		// $(".email").attr("href", $(".email").attr("href").replace("---", "@"));
 		$("#email").text($("#email").text().replace("---", "@"));
 	}
 
@@ -175,12 +189,33 @@
 
 		// Change settings
 		settings.language = settings.language == "fr" ? "en" : "fr";
+		
+		return false;
 	}
 
 	var updateLanguage = function () {
 		fillContent();
 		fillProjects();
-		$( "#two" ).slideDown( ANIMATION_DURATION);
+		$( "#two" ).slideDown( ANIMATION_DURATION );
+	}
+
+	var toggleInfo = function (event) {
+		var $child = $(event.currentTarget).find("span.expand");
+
+		if ($child.length == 0) {
+			return true;
+		}
+		// console.log(event);
+		// console.log($child);
+		if ($child.hasClass("expanded")) {
+			$child.animate( { 'max-width':'0px' },ANIMATION_DURATION);
+			$child.removeClass("expanded");
+		} else {
+			$child.addClass("expanded");
+			$child.animate( { 'max-width':'200%' },ANIMATION_DURATION);
+		}
+		
+		return false;
 	}
 
 	// Document on load.
@@ -189,7 +224,8 @@
 		updateLanguage();
 		getProjects(fillProjects);
 		decipherMail();
-		$("#switchLanguage").on("click", switchLanguage);
+		$("#switchLanguage").click(switchLanguage);
+		$(".icon").click(toggleInfo);
 	});
 
 })();
