@@ -1,13 +1,13 @@
 {
 	"fr": {
-		"title": "Titre 1",
-		"tags": ["tag 1", "tag 2"],
-		"short_description": "Courte descr."
+		"title": "New Wave Radio",
+		"tags": ["Junior Association", "Radio locale", "Conseil des Jeunes"],
+		"short_description": "Radio locale créée avec d'autres jeunes de la ville"
 	},
 	"en": {
-		"title": "Titre",
-		"tags": ["tag 1", "tag 2"],
-		"short_description": "Short descr."
+		"title": "New Wave Radio",
+		"tags": ["Junior Association", "Local radio", "Youth council"],
+		"short_description": "Local radio set up with some teenagers of the area"
 	},
 	"media": {
 		"type": "image",

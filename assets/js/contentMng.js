@@ -108,13 +108,13 @@
 	var fillProjects = function () {
 		$("#projects").html("");
 
-		for (var i = 1; i < nbProjects; i++) {
+		for (var i = nbProjects - 1 ; i > 0 ; i--) {
 			var txt = PROJECT_TEMPLATE;
-
+			console.log(projects[i].media.type == "image");
 			// Set media type
 			if (projects[i].media.type == "image") {
 				txt = txt.replace("{link}", "images/fulls/{id}.jpg");
-				txt = txt.replace("{poptroxData}", "");
+				txt = txt.replace("data-poptrox='{poptroxData}' ", "");
 			} else {
 				txt = txt.replace("{poptroxData}", projects[i].media.type);
 				txt = txt.replace("{link}", projects[i].media.content);
@@ -133,7 +133,7 @@
 			$.each(projects[i][settings.language], function(index, value) {
 				txt = txt.replace(new RegExp("{" + index + "}", 'g'), value);
 			});
-			// console.log(txt);
+			console.log(txt);
 			
 			$("#projects").append(txt);
 		}
@@ -196,7 +196,7 @@
 	var updateLanguage = function () {
 		fillContent();
 		fillProjects();
-		$( "#two" ).slideDown( ANIMATION_DURATION );
+		// $( "#two" ).slideDown( ANIMATION_DURATION );
 	}
 
 	var toggleInfo = function (event) {
@@ -218,6 +218,17 @@
 		return false;
 	}
 
+	var showLabel = function (event) {
+		var $label = $(event.currentTarget).find("span.label");
+		$label.fadeIn( ANIMATION_DURATION );
+		$label.css("left", -$label.width()/2);
+	}
+
+	var hideLabel = function (event) {
+		var $label = $(event.currentTarget).find("span.label");
+		$label.fadeOut( ANIMATION_DURATION );
+	}
+
 	// Document on load.
 	$(function(){
 		detectBrowserLanguage();
@@ -226,6 +237,8 @@
 		decipherMail();
 		$("#switchLanguage").click(switchLanguage);
 		$(".icon").click(toggleInfo);
+		$(".icon").hover(showLabel, hideLabel);
+		$(".label").hover(function(){ return false; });
 	});
 
 })();

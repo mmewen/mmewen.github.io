@@ -3,6 +3,10 @@ var info = {
 		"en": "Phone",
 		"fr": "Portable"
 	},
+	".info-resume": {
+		"en": "Résumé",
+		"fr": "CV"
+	},
 	".info-address": {
 		"en": "Address",
 		"fr": "Adresse"
