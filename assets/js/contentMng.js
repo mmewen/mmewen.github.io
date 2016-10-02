@@ -30,9 +30,15 @@
 
 	var nbRequestToComeBack = 0;
 
+	// URI util
+	function get(name){
+		if(name=(new RegExp('[?&]'+encodeURIComponent(name)+'=([^&]*)')).exec(location.search))
+			return decodeURIComponent(name[1]);
+	}
+
 	// Detects browser language and save it
 	var detectBrowserLanguage = function () {
-		settings.language = (navigator.language || navigator.userLanguage) != "fr" ? "en" : "fr";
+		settings.language = (get("l") || navigator.language || navigator.userLanguage) != "fr" ? "en" : "fr";
 		// console.log(settings.language);
 	}
 
@@ -196,7 +202,7 @@
 	var updateLanguage = function () {
 		fillContent();
 		fillProjects();
-		// $( "#two" ).slideDown( ANIMATION_DURATION );
+		$( "#two" ).slideDown( ANIMATION_DURATION );
 	}
 
 	var toggleInfo = function (event) {
