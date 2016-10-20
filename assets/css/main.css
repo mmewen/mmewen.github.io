@@ -3199,9 +3199,7 @@
 
 	span.tag {
 		margin-right: 1em;
-		padding: 0.7em;
-		padding-top: 0.2em;
-		padding-bottom: 0.5em;
+		padding: 0.2em 0.7em 0.4em 0.7em;
 		color: white;
 		background-color: rgba(0, 122, 162, 0.5);
 		border-radius: 0.25em;
@@ -3226,4 +3224,9 @@
 
 	.pic img {
 		width: 100%;
+	}
+
+	.meta-icons {
+		min-width: 2em;
+		text-align: center;
 	}

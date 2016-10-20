@@ -17,11 +17,17 @@
 		<div class='tags'>{tags}</div>\
 		<p>{long_description}</p>\
 		";
+	var LOCATION_TEMPLATE = "<div class='tags'><span class='meta-icons fa fa-map-marker' />{location}</div>";
+	var LOCATION_WITH_URL_TEMPLATE = "<div class='tags'><span class='meta-icons fa fa-map-marker' /><a href='{locationUrl}' target='_blank'>{location}</a></div>";
+	var DATE_TEMPLATE = "<div class='tags'><span class='meta-icons fa fa-calendar-check-o' />{date}</div>";
+	var HARDWARE_TEMPLATE = "<div class='tags'><span class='meta-icons fa fa-gears' />{hardwares}</div>";
+	var SOFTWARE_TEMPLATE = "<div class='tags'><span class='meta-icons fa fa-code' />{softwares}</div>";
+	var TAGS_TEMPLATE = "<span class='tag'>{tag}</span>";
 	var ANIMATION_DURATION = 750;
 
 	var settings = {
-		"language": "fr",
-		"possibleLanguages": ["fr", "en"]
+		"language": "en",
+		"possibleLanguages": [/*"fr", */"en"]
 	};
 
 	var projects = {}
@@ -38,7 +44,7 @@
 
 	// Detects browser language and save it
 	var detectBrowserLanguage = function () {
-		settings.language = (get("l") || navigator.language || navigator.userLanguage) != "fr" ? "en" : "fr";
+		// settings.language = (get("l") || navigator.language || navigator.userLanguage) != "fr" ? "en" : "fr";
 		// console.log(settings.language);
 	}
 
@@ -116,7 +122,7 @@
 
 		for (var i = nbProjects - 1 ; i > 0 ; i--) {
 			var txt = PROJECT_TEMPLATE;
-			console.log(projects[i].media.type == "image");
+			// console.log(projects[i].media.type == "image");
 			// Set media type
 			if (projects[i].media.type == "image") {
 				txt = txt.replace("{link}", "images/fulls/{id}.jpg");
@@ -139,7 +145,7 @@
 			$.each(projects[i][settings.language], function(index, value) {
 				txt = txt.replace(new RegExp("{" + index + "}", 'g'), value);
 			});
-			console.log(txt);
+			// console.log(txt);
 			
 			$("#projects").append(txt);
 		}
@@ -162,6 +168,13 @@
 	}
 
 	var fillCaption = function (a) {
+		/*
+		LOCATION_TEMPLATE
+		LOCATION_WITH_URL_TEMPLATE
+		DATE_TEMPLATE
+		HARDWARE_TEMPLATE
+		SOFTWARE_TEMPLATE
+		*/
 		
 		var i = a[0].id;
 
@@ -171,16 +184,48 @@
 		// Title
 		txt = txt.replace("{title}", content.title);
 		// Tags
-		var tags = content.tags.map(function(a){return '<span class="tag">'+a+'</span>'}).join('');
+		var tags = content.tags.map(tagThisText).join('');
 		txt = txt.replace("{tags}", tags);
 		// long_description
-		txt = txt.replace("{long_description}", content.long_description.split(new RegExp("\\n\\n", 'g')).join("</p><p>").replace(new RegExp("\\n", 'g'), "<br/>"));
+		txt = txt.replace("{long_description}", content.long_description.split(new RegExp("\\n\\n", 'g')).join("</p><p>").replace(new RegExp("\\n[^<\\t]", 'g'), "<br/>"));
 		$.each(projects[i][settings.language], function(index, value) {
 			txt = txt.replace(new RegExp("{" + index + "}", 'g'), value);
 		});
 
+
+		// Date
+		if (!!projects[i].meta.date) {
+			txt += DATE_TEMPLATE.replace("{date}", projects[i].meta.date);
+		}
+		// Location
+		if (!!projects[i].meta.location) {
+			var location;
+			if (!!projects[i].meta.locationUrl) {
+				location = LOCATION_WITH_URL_TEMPLATE.replace("{locationUrl}", projects[i].meta.locationUrl);
+			} else {
+				location = LOCATION_TEMPLATE;
+			}
+			location = location.replace("{location}", projects[i].meta.location);
+			txt += location;
+		}
+		// hardwares tags
+		if (projects[i].meta.hardware.length > 0) {
+			var hardwares = projects[i].meta.hardware.map(tagThisText).join('');
+			txt += HARDWARE_TEMPLATE.replace("{hardwares}", hardwares);
+		}
+		// softwares tags
+		if (projects[i].meta.software.length > 0) {
+			var softwares = projects[i].meta.software.map(tagThisText).join('');
+			txt += SOFTWARE_TEMPLATE.replace("{softwares}", softwares);
+		}
+
 		// console.log(txt);
 		return txt;
+	}
+
+	// Add a tag span to a text
+	var tagThisText = function (text){
+		return TAGS_TEMPLATE.replace("{tag}", text);
 	}
 
 	// Puts and @ in the email address
@@ -239,7 +284,7 @@
 	$(function(){
 		detectBrowserLanguage();
 		updateLanguage();
-		getProjects(fillProjects);
+		// getProjects(fillProjects);
 		decipherMail();
 		$("#switchLanguage").click(switchLanguage);
 		$(".icon").click(toggleInfo);
