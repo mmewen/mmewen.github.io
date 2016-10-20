@@ -16,9 +16,9 @@ var info = {
 		"fr": "Projets"
 	},
 	"#info-presentation": {
-		"en": "Hello ! I am <strong>Mewen M.</strong>,<br />\
+		"en": "Hello! I am <strong>Mewen M.</strong>,<br />\
 			French engineering student<br />\
-			in real time & embedded systems</br>\
+			in real-time & embedded systems</br>\
 			at the <a href='https://www.utc.fr/en.html'>UTC</a>.",
 		"fr": "Bonjour ! Je suis <strong>Mewen M.</strong>,<br />\
 			étudiant ingénieur<br />\
