@@ -279,12 +279,12 @@
 			txt += location;
 		}
 		// hardwares tags
-		if (projects[i].meta.hardware.length > 0) {
+		if (!!projects[i].meta.hardware && projects[i].meta.hardware.length > 0) {
 			var hardwares = projects[i].meta.hardware.map(tagThisText).join('');
 			txt += HARDWARE_TEMPLATE.replace("{hardwares}", hardwares);
 		}
 		// softwares tags
-		if (projects[i].meta.software.length > 0) {
+		if (!!projects[i].meta.software && projects[i].meta.software.length > 0) {
 			var softwares = projects[i].meta.software.map(tagThisText).join('');
 			txt += SOFTWARE_TEMPLATE.replace("{softwares}", softwares);
 		}

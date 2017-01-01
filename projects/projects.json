@@ -19,38 +19,30 @@
 	},
 	"2" : {
 		"en": {
-			"title": "New Wave Radio 2",
-			"tags": ["Junior Association", "Local radio", "Youth council"],
-			"short_description": "Local radio set up with some teenagers of the area"
+			"title": "Graphic design",
+			"tags": ["vector/bitmap", "layers", "CMYK/RGB", "web/print export", "color & light correction"],
+			"short_description": "Creation and edition of pictures, posters, visual elements, logotypes, videos..."
 		},
 		"media": {
 			"type": "image",
 			"content": ""
 		},
 		"meta": {
-			"location": "Paris",
-			"locationUrl": "http://www.openstreetmap.org/#map=13/48.8590/2.3770",
-			"date": "Fall 2014 to May 2015",
-			"hardware": ["Raspberry Pi", "Arduino"],
-			"software":["Node.js", "Firmata"]
+			"software":["Gimp", "Inkscape", "Ps", "Ai", "Pr", "In"]
 		}
 	},
 	"3" : {
 		"en": {
-			"title": "New Wave Radio 3",
-			"tags": ["Junior Association", "Local radio", "Youth council"],
-			"short_description": "Local radio set up with some teenagers of the area"
+			"title": "Static websites",
+			"tags": ["Github Pages", "DNS configuration"],
+			"short_description": "TODO"
 		},
 		"media": {
 			"type": "image",
 			"content": ""
 		},
 		"meta": {
-			"location": "Paris",
-			"locationUrl": "http://www.openstreetmap.org/#map=13/48.8590/2.3770",
-			"date": "Fall 2014 to May 2015",
-			"hardware": ["Raspberry Pi", "Arduino"],
-			"software":["Node.js", "Firmata"]
+			"software":["HTML5", "CSS3", "Javascript", "jQuery"]
 		}
 	},
 	"4" : {
