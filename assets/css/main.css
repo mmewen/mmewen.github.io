@@ -3230,3 +3230,37 @@
 		min-width: 2em;
 		text-align: center;
 	}
+
+	/* Custom */
+
+	.caption-container{
+		width: 100%;
+		margin: 0 0 2em 0;
+		display: none;
+	}
+
+	.caption-box{
+		background-color: #F0F0F5;
+		padding: 1em;
+		border-radius: 0.2em;
+		overflow: hidden;
+	}
+
+	.caption-picture{
+		width: 105%;
+		margin-left: -1em;
+	}
+
+	.caption-arrow {
+	    width: 20px;
+	    height: 20px;
+	    position: absolute;
+	    transform: rotate(45deg);
+	    background-color: #EEEEEE;
+	    margin-top: -10px;
+	    z-index: -1;
+	}
+
+	#header {
+		background-color: #01101D;
+	}

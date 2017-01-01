@@ -1,0 +1,14 @@
+{
+	"en": {
+		"title": "Static websites",
+		"tags": ["Github Pages", "DNS configuration"],
+		"short_description": ""
+	},
+	"media": {
+		"type": "image",
+		"content": ""
+	},
+	"meta": {
+		"software":["HTML5", "CSS3", "Javascript", "jQuery"]
+	}
+}

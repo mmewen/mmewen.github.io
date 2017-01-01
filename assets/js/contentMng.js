@@ -3,19 +3,37 @@
 	'use strict';
 
 	var PROJECTS_PREFIX = './projects/';
+	var PROJECT_ID_PREFIX = 'project-';
 	var PROJECTS_JSON_SUFFIX = '.json';
 	var PROJECTS_TXT_SUFFIX = '.txt';
+	var PROJECT_LIST_URL = PROJECTS_PREFIX + 'projects.json';
+	// var PROJECT_TEMPLATE = "\
+	// 	<article class='6u 12u$(xsmall) work-item'>\
+	// 		<a href='{link}' data-poptrox='{poptroxData}' class='image fit thumb' id='{id}'><img src='images/thumbs/{id}.jpg' alt='' /></a>\
+	// 		<h3>{title}</h3>\
+	// 		<p>{short_description}</p>\
+	// 	</article>\
+	// 	";
 	var PROJECT_TEMPLATE = "\
 		<article class='6u 12u$(xsmall) work-item'>\
-			<a href='{link}' data-poptrox='{poptroxData}' class='image fit thumb' id='{id}'><img src='images/thumbs/{id}.jpg' alt='' /></a>\
+			<a href='{link}' class='project-show image fit thumb' id='a-{id}'><img src='images/thumbs/{id}.jpg' alt='' /></a>\
 			<h3>{title}</h3>\
 			<p>{short_description}</p>\
 		</article>\
 		";
 	var CAPTION_TEMPLATE = "\
+		<img src='images/fulls/{id}.jpg' alt='' class='caption-picture'/>\
 		<h3>{title}</h3>\
 		<div class='tags'>{tags}</div>\
 		<p>{long_description}</p>\
+		";
+	var CAPTION_BOX = "\
+		<div class='caption-container' id='{project-name}' >\
+			<div class='caption-arrow' />\
+			<div class='caption-box'>\
+				{CAPTION_TEMPLATE}\
+			</div>\
+		</div>\
 		";
 	var LOCATION_TEMPLATE = "<div class='tags'><span class='meta-icons fa fa-map-marker' />{location}</div>";
 	var LOCATION_WITH_URL_TEMPLATE = "<div class='tags'><span class='meta-icons fa fa-map-marker' /><a href='{locationUrl}' target='_blank'>{location}</a></div>";
@@ -59,25 +77,49 @@
 
 	// Donwloads all the projects
 	var getProjects = function (callback) {
-		fileExist(++nbProjects, function(){
-			// console.log("Call callback");
-			// callback();
-		}.bind(callback),
-		function(data){
-			// Success callback
-			loadProject(data, callback);
-			// console.log("Found " + nbProjects + " projects");
-			getProjects(callback);
-		}.bind(callback))
+		// fileExist(++nbProjects, function(){
+		// 	// console.log("Call callback");
+		// 	// callback();
+		// }.bind(callback),
+		// function(data){
+		// 	// Success callback
+		// 	loadProject(data, callback);
+		// 	// console.log("Found " + nbProjects + " projects");
+		// 	getProjects(callback);
+		// }.bind(callback))
+
+		// console.log(PROJECT_LIST_URL);
+		$.ajax({
+			url: PROJECT_LIST_URL,
+			dataType: "json",
+			error: function(jqXHR, textStatus, errorThrown ){
+				// If we don't find the page, log it and don't block
+				console.warn("Coudn't find project list");
+				console.warn(textStatus);
+			},
+			success: function(data, textStatus){
+				// console.log("Found " + PROJECT_LIST_URL);
+				projects = data;
+
+				// console.log(data);
+				for (var project in projects){
+					// console.log("Looking for project " + project);
+					nbProjects++;
+					loadProject(project, callback);
+				}
+			}
+		});
 	}
 
-	var loadProject = function(data, callback) {
-		var id = nbProjects;
-		projects[id] = data;
+	var loadProject = function(id, callback) {
+		// var id = nbProjects;
+		// projects[id] = data;
+
+		// global nbRequestToComeBack;
 
 		for (var i = settings.possibleLanguages.length - 1; i >= 0; i--) {
 			var lang = settings.possibleLanguages[i];
-			var targetUrl = PROJECTS_PREFIX + nbProjects + "." + lang + PROJECTS_TXT_SUFFIX;
+			var targetUrl = PROJECTS_PREFIX + id + "." + lang + PROJECTS_TXT_SUFFIX;
 			// console.log(targetUrl);
 			nbRequestToComeBack++;
 			$.ajax({
@@ -88,6 +130,11 @@
 					console.warn("Coudn't find post " + id + " in " + lang);
 					console.warn(textStatus);
 					nbRequestToComeBack--;
+
+					if (nbRequestToComeBack == 0) {
+						console.log("callback");
+						callback();
+					}
 				}.bind(id, lang),
 				success: function(l, data, textStatus){
 					nbRequestToComeBack--;
@@ -95,7 +142,9 @@
 					// console.log(data);
 					// console.log(l);
 					projects[id][l].long_description = data;
+
 					if (nbRequestToComeBack == 0) {
+						console.log("Got all articles content");
 						callback();
 					}
 				}.bind(id, lang)
@@ -120,20 +169,26 @@
 	var fillProjects = function () {
 		$("#projects").html("");
 
-		for (var i = nbProjects - 1 ; i > 0 ; i--) {
+
+		for (var i = nbProjects ; i > 0 ; i--) {
+			// console.log(nbProjects);
+
 			var txt = PROJECT_TEMPLATE;
 			// console.log(projects[i].media.type == "image");
 			// Set media type
-			if (projects[i].media.type == "image") {
-				txt = txt.replace("{link}", "images/fulls/{id}.jpg");
-				txt = txt.replace("data-poptrox='{poptroxData}' ", "");
-			} else {
-				txt = txt.replace("{poptroxData}", projects[i].media.type);
-				txt = txt.replace("{link}", projects[i].media.content);
-			}
+			// if (projects[i].media.type == "image") {
+			// 	txt = txt.replace("{link}", "images/fulls/{id}.jpg");
+			// 	txt = txt.replace("data-poptrox='{poptroxData}' ", "");
+			// } else {
+			// 	txt = txt.replace("{poptroxData}", projects[i].media.type);
+			// 	txt = txt.replace("{link}", projects[i].media.content);
+			// }
 			
+			txt = txt.replace("{link}", "#"); // + PROJECT_ID_PREFIX + i);
+
 			// Set div to left of right
-			if (i%2==0) {
+			// left is without '$', right has it
+			if ((nbProjects - i + 1) % 2 == 0) { // if right
 				txt = txt.replace("6u", "6u$");
 			}
 
@@ -148,23 +203,32 @@
 			// console.log(txt);
 			
 			$("#projects").append(txt);
+
+			if ((nbProjects - i + 1) % 2 == 0) { // if right or last left
+				$("#projects").append(fillCaption(i+1));
+				$("#projects").append(fillCaption(i));
+			} else if (i ==1) { // if last left
+				$("#projects").append(fillCaption(i));
+			}
 		}
 
-		$('#two').poptrox({
-			// caption: function($a) { return $a.next('div').html(); },
-			caption: fillCaption,
-			overlayColor: '#2c2c2c',
-			overlayOpacity: 0.85,
-			popupCloserText: '',
-			popupLoaderText: '',
-			selector: '.work-item a.image',
-			usePopupCaption: true,
-			usePopupDefaultStyling: false,
-			usePopupEasyClose: false,
-			usePopupNav: true,
-			windowMargin: (skel.breakpoint('small').active ? 0 : 50)
-			// onPopupOpen: fillProjectContent
-		});
+		$(".project-show").click(showProjectCaption);
+
+		// $('#two').poptrox({
+		// 	// caption: function($a) { return $a.next('div').html(); },
+		// 	caption: fillCaption,
+		// 	overlayColor: '#2c2c2c',
+		// 	overlayOpacity: 0.85,
+		// 	popupCloserText: '',
+		// 	popupLoaderText: '',
+		// 	selector: '.work-item a.image',
+		// 	usePopupCaption: true,
+		// 	usePopupDefaultStyling: false,
+		// 	usePopupEasyClose: false,
+		// 	usePopupNav: true,
+		// 	windowMargin: (skel.breakpoint('small').active ? 0 : 50)
+		// 	// onPopupOpen: fillProjectContent
+		// });
 	}
 
 	var fillCaption = function (a) {
@@ -176,13 +240,19 @@
 		SOFTWARE_TEMPLATE
 		*/
 		
-		var i = a[0].id;
+		// var i = a[0].id;	// poptrox
+		var i = a;			// custom
 
 		var txt = CAPTION_TEMPLATE;
+		var boxtxt = CAPTION_BOX;
 		var content = projects[i][settings.language];
 
 		// Title
 		txt = txt.replace("{title}", content.title);
+
+		// Picture
+		txt = txt.replace("{id}", i);
+
 		// Tags
 		var tags = content.tags.map(tagThisText).join('');
 		txt = txt.replace("{tags}", tags);
@@ -219,8 +289,12 @@
 			txt += SOFTWARE_TEMPLATE.replace("{softwares}", softwares);
 		}
 
-		// console.log(txt);
-		return txt;
+		boxtxt = boxtxt.replace("{CAPTION_TEMPLATE}", txt);
+		// console.log(i);
+		boxtxt = boxtxt.replace("{project-name}", PROJECT_ID_PREFIX + i);
+		
+		//console.log(boxtxt);
+		return boxtxt;
 	}
 
 	// Add a tag span to a text
@@ -280,11 +354,49 @@
 		$label.fadeOut( ANIMATION_DURATION );
 	}
 
+	var showProjectCaption = function (event) {
+		var id = $(event.currentTarget).first().attr('id').split("-")[1];
+		console.log(id);
+
+		// $(".caption-container").removeClass("active");
+		// $("#" + PROJECT_ID_PREFIX + id).addClass("active"); // find the caption-container to show
+
+		var f = function(){
+			$("#" + PROJECT_ID_PREFIX + id).addClass("active");
+			$("#" + PROJECT_ID_PREFIX + id).slideDown(500);
+
+			// left border x pos + width/2 + radius
+			var pos = $(event.currentTarget).offset().left + $(event.currentTarget).innerWidth()/2 - 10;
+
+			$("#" + PROJECT_ID_PREFIX + id + ">.caption-arrow").css("left", pos + "px");
+		};
+
+		var opened = $(".caption-container.active");
+
+		if (opened.length > 0) {
+			console.log("Clicked :" + id);
+			console.log(opened.length + " opened :" + opened.first().attr('id').split("-")[1]);
+
+			opened.first().removeClass("active");
+			if (id == opened.first().attr('id').split("-")[1]) {
+				// Just close the caption
+				opened.slideUp(500);
+			} else {
+				// Close the previous caption, and next open the selected one
+				opened.slideUp(500, f);
+			}
+		} else {
+			f();
+		}
+
+		return false;
+	}
+
 	// Document on load.
 	$(function(){
 		detectBrowserLanguage();
 		updateLanguage();
-		// getProjects(fillProjects);
+		getProjects(fillProjects);
 		decipherMail();
 		$("#switchLanguage").click(switchLanguage);
 		$(".icon").click(toggleInfo);
