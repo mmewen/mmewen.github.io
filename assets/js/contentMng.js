@@ -412,9 +412,9 @@
 	$(function(){
 		detectBrowserLanguage();
 		updateLanguage();
-		getProjects(fillProjects);
+		// getProjects(fillProjects);
 		decipherMail();
-		initResumeBlink();
+		// initResumeBlink();
 		$("#switchLanguage").click(switchLanguage);
 		$(".icon").click(toggleInfo);
 		$(".icon").hover(showLabel, hideLabel);
