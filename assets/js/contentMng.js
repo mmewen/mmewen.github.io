@@ -392,12 +392,29 @@
 		return false;
 	}
 
+	var initResumeBlink = function() {
+		// console.log("blink");
+		$("#resume").addClass("blinking");
+
+		// Unset color
+		setTimeout(function(){
+			// console.log("blinkend");
+			$("#resume").removeClass("blinking");
+
+			// Loop
+			setTimeout(function(){
+				initResumeBlink();
+			}, 10000);
+		}, 1000);
+	}
+
 	// Document on load.
 	$(function(){
 		detectBrowserLanguage();
 		updateLanguage();
 		getProjects(fillProjects);
 		decipherMail();
+		initResumeBlink();
 		$("#switchLanguage").click(switchLanguage);
 		$(".icon").click(toggleInfo);
 		$(".icon").hover(showLabel, hideLabel);

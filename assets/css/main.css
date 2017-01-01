@@ -3264,3 +3264,7 @@
 	#header {
 		background-color: #01101D;
 	}
+
+	.blinking {
+		color: #007aa2 !important;
+	}
