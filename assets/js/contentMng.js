@@ -5,7 +5,7 @@
 	var PROJECTS_PREFIX = './projects/';
 	var PROJECT_ID_PREFIX = 'project-';
 	var PROJECTS_JSON_SUFFIX = '.json';
-	var PROJECTS_TXT_SUFFIX = '.txt';
+	var PROJECTS_TXT_SUFFIX = '.html';
 	var PROJECT_LIST_URL = PROJECTS_PREFIX + 'projects.json';
 	// var PROJECT_TEMPLATE = "\
 	// 	<article class='6u 12u$(xsmall) work-item'>\
@@ -21,8 +21,9 @@
 			<p>{short_description}</p>\
 		</article>\
 		";
+	var CAPTION_DEFAULT_IMAGE = "<img src='images/fulls/{id}.jpg' alt='' class='caption-picture'/>";
+	var CAPTION_CUSTOM_IMAGE = "<img src='images/content/{image}.jpg' alt='' class='caption-picture'/>";
 	var CAPTION_TEMPLATE = "\
-		<img src='images/fulls/{id}.jpg' alt='' class='caption-picture'/>\
 		<h3>{title}</h3>\
 		<div class='tags'>{tags}</div>\
 		<p>{long_description}</p>\
@@ -40,6 +41,7 @@
 	var DATE_TEMPLATE = "<div class='tags'><span class='meta-icons fa fa-calendar-check-o' />{date}</div>";
 	var HARDWARE_TEMPLATE = "<div class='tags'><span class='meta-icons fa fa-gears' />{hardwares}</div>";
 	var SOFTWARE_TEMPLATE = "<div class='tags'><span class='meta-icons fa fa-code' />{softwares}</div>";
+	var GITHUB_TEMPLATE = "<div class='tags'><span class='meta-icons fa fa-github' /><a href='{url}' target='_blank'>{displayUrl}</a></div>";
 	var TAGS_TEMPLATE = "<span class='tag'>{tag}</span>";
 	var ANIMATION_DURATION = 750;
 
@@ -167,10 +169,10 @@
 
 	// Fills the project part
 	var fillProjects = function () {
-		$("#projects").html("");
 
+		var projectsContent = "";
 
-		for (var i = nbProjects ; i > 0 ; i--) {
+		for (let id in projects) { // var i = nbProjects ; i > 0 ; i--) {
 			// console.log(nbProjects);
 
 			var txt = PROJECT_TEMPLATE;
@@ -184,35 +186,61 @@
 			// 	txt = txt.replace("{link}", projects[i].media.content);
 			// }
 			
-			txt = txt.replace("{link}", "#"); // + PROJECT_ID_PREFIX + i);
+			let nth = Object.keys(projects).findIndex(x => x == id);
+			let i = Object.keys(projects)[nth];
+
+			if (nth == -1) {
+				console.error("Index "+id+" not found");
+				return;
+			}
+
+			txt = txt.replace("{link}", "#" + projects[i].en.title); // + PROJECT_ID_PREFIX + i);
+
+			let isRight = (nbProjects - nth) % 2 == 0;
 
 			// Set div to left of right
 			// left is without '$', right has it
-			if ((nbProjects - i + 1) % 2 == 0) { // if right
+			// if ((nbProjects - i + 1) % 2 == 0) { // if right
+			if (isRight) {
 				txt = txt.replace("6u", "6u$");
 			}
 
 			// Fill content of the project
-			var content = projects[i][settings.language];
+			var content = projects[id][settings.language];
 			// id
 			txt = txt.replace(new RegExp("{id}", 'g'), i);
 			// other
 			$.each(projects[i][settings.language], function(index, value) {
 				txt = txt.replace(new RegExp("{" + index + "}", 'g'), value);
 			});
-			// console.log(txt);
-			
-			$("#projects").append(txt);
+			// console.log(i);
+			// console.log(isRight);
 
-			if ((nbProjects - i + 1) % 2 == 0) { // if right or last left
-				$("#projects").append(fillCaption(i+1));
-				$("#projects").append(fillCaption(i));
-			} else if (i ==1) { // if last left
-				$("#projects").append(fillCaption(i));
+			// if ((nbProjects - i + 1) % 2 == 0) { // if right
+			if (isRight) {
+				let nthPlusOne = Object.keys(projects).findIndex(x => x == id) + 1;
+				if (nthPlusOne == 0) {
+					console.error("Index "+id+" not found");
+					return;
+				}
+				projectsContent = fillCaption(i) + projectsContent;
+				projectsContent = fillCaption(Object.keys(projects)[nthPlusOne]) + projectsContent;
+				// $("#projects").append(fillCaption(Object.keys(projects)[nthPlusOne]));
+				// $("#projects").append(fillCaption(i));
+			} else if (i == Object.keys(projects)[0] ) { // if last left
+				projectsContent = fillCaption(i) + projectsContent;
 			}
+			
+			// $("#projects").append(txt);
+			projectsContent = txt + projectsContent;
 		}
 
+		$("#projects").html("");
+		$("#projects").append(projectsContent);
 		$(".project-show").click(showProjectCaption);
+
+		// If link to an anchor
+		goToProject();
 
 		// $('#two').poptrox({
 		// 	// caption: function($a) { return $a.next('div').html(); },
@@ -238,26 +266,42 @@
 		DATE_TEMPLATE
 		HARDWARE_TEMPLATE
 		SOFTWARE_TEMPLATE
+		GITHUB_TEMPLATE
 		*/
 		
 		// var i = a[0].id;	// poptrox
 		var i = a;			// custom
+		// console.log(i);
+		// console.log(projects);
+		// console.log(projects[i]);
 
-		var txt = CAPTION_TEMPLATE;
+		var txt = "";
 		var boxtxt = CAPTION_BOX;
 		var content = projects[i][settings.language];
 
+		if (projects[i].media.type == "image") {
+			txt = CAPTION_DEFAULT_IMAGE + CAPTION_TEMPLATE;
+
+			// Picture
+			txt = txt.replace("{id}", i);
+		} else if (projects[i].media.type == "customImage") {
+			txt = CAPTION_CUSTOM_IMAGE + CAPTION_TEMPLATE;
+
+			// Picture
+			txt = txt.replace("{image}", projects[i].media.content);
+		} else {
+			// No big picture
+			txt = CAPTION_TEMPLATE;
+		}
+
 		// Title
 		txt = txt.replace("{title}", content.title);
-
-		// Picture
-		txt = txt.replace("{id}", i);
 
 		// Tags
 		var tags = content.tags.map(tagThisText).join('');
 		txt = txt.replace("{tags}", tags);
 		// long_description
-		txt = txt.replace("{long_description}", content.long_description.split(new RegExp("\\n\\n", 'g')).join("</p><p>").replace(new RegExp("\\n[^<\\t]", 'g'), "<br/>"));
+		txt = txt.replace("{long_description}", content.long_description); // .split(new RegExp("\\n\\n", 'g')).join("</p><p>").replace(new RegExp("\\n", 'g'), "<br/>"));
 		$.each(projects[i][settings.language], function(index, value) {
 			txt = txt.replace(new RegExp("{" + index + "}", 'g'), value);
 		});
@@ -287,6 +331,10 @@
 		if (!!projects[i].meta.software && projects[i].meta.software.length > 0) {
 			var softwares = projects[i].meta.software.map(tagThisText).join('');
 			txt += SOFTWARE_TEMPLATE.replace("{softwares}", softwares);
+		}
+		// Github link
+		if (!!projects[i].meta.github) {
+			txt += GITHUB_TEMPLATE.replace("{url}", projects[i].meta.github).replace("{displayUrl}",  projects[i].meta.github.split("github.com")[1]);
 		}
 
 		boxtxt = boxtxt.replace("{CAPTION_TEMPLATE}", txt);
@@ -354,21 +402,27 @@
 		$label.fadeOut( ANIMATION_DURATION );
 	}
 
+	var slideCaption = function(target, targetId){
+		$("#" + PROJECT_ID_PREFIX + targetId).addClass("active");
+		$("#" + PROJECT_ID_PREFIX + targetId).slideDown(500);
+
+		// left border x pos + width/2 + radius
+		// var pos = $(event.currentTarget).offset().left + $(event.currentTarget).innerWidth()/2 - 10;
+		var pos = $(target).offset().left + $(target).innerWidth()/2 - 10;
+
+		$("#" + PROJECT_ID_PREFIX + targetId + ">.caption-arrow").css("left", pos + "px");
+	}
+
 	var showProjectCaption = function (event) {
 		var id = $(event.currentTarget).first().attr('id').split("-")[1];
-		console.log(id);
+		var target = event.currentTarget;
+		console.log(target);
 
 		// $(".caption-container").removeClass("active");
 		// $("#" + PROJECT_ID_PREFIX + id).addClass("active"); // find the caption-container to show
 
 		var f = function(){
-			$("#" + PROJECT_ID_PREFIX + id).addClass("active");
-			$("#" + PROJECT_ID_PREFIX + id).slideDown(500);
-
-			// left border x pos + width/2 + radius
-			var pos = $(event.currentTarget).offset().left + $(event.currentTarget).innerWidth()/2 - 10;
-
-			$("#" + PROJECT_ID_PREFIX + id + ">.caption-arrow").css("left", pos + "px");
+			slideCaption(target, id);
 		};
 
 		var opened = $(".caption-container.active");
@@ -385,11 +439,16 @@
 				// Close the previous caption, and next open the selected one
 				opened.slideUp(500, f);
 			}
+
+			history.replaceState({}, "", window.location.href.split("#")[0]);
+
+			return false;
 		} else {
 			f();
+
+			return true;
 		}
 
-		return false;
 	}
 
 	var initResumeBlink = function() {
@@ -408,11 +467,41 @@
 		}, 1000);
 	}
 
+	var findKey = function(obj, conditionCallback) {
+		for (let key in obj) {
+			if (conditionCallback(obj[key])) {
+				return key;
+			}
+		}
+		return undefined;
+	};
+
+	var goToProject = function(){
+		let encodedAnchor = window.location.href.split("#")[1];
+		if (!!encodedAnchor && encodedAnchor.length > 0) {
+			let anchorName = decodeURIComponent(encodedAnchor);
+			let k = findKey(projects, x => x.en.title == anchorName);
+			console.log(k);
+			if (k != undefined) {
+				console.log("Going to " + projects[k].en.title);
+				let target = "#a-" + k;
+				slideCaption(target, k);
+				scrollTo(target);
+			}
+		}
+	}
+
+	function scrollTo(id){
+		$('html,body').animate({
+			scrollTop: $(id).offset().top},
+			'slow');
+	}
+
 	// Document on load.
 	$(function(){
 		detectBrowserLanguage();
 		updateLanguage();
-		// getProjects(fillProjects);
+		getProjects(fillProjects);
 		decipherMail();
 		// initResumeBlink();
 		$("#switchLanguage").click(switchLanguage);

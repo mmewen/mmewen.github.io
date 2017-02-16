@@ -3195,6 +3195,7 @@
 
 	div.tags {
 		margin-bottom: 1.5em;
+		line-height: 2.5em; /* custom */
 	}
 
 	span.tag {
@@ -3241,14 +3242,14 @@
 
 	.caption-box{
 		background-color: #F0F0F5;
-		padding: 1em;
+		padding: 2em;
 		border-radius: 0.2em;
 		overflow: hidden;
 	}
 
 	.caption-picture{
-		width: 105%;
-		margin-left: -1em;
+		width: 110%;
+		margin-left: -2em;
 	}
 
 	.caption-arrow {
@@ -3267,4 +3268,14 @@
 
 	.blinking {
 		color: #007aa2 !important;
+	}
+
+	#resumeBtn {
+		float: right;
+		top: -4em; /* ugh, ugly */
+		position: relative;
+	}
+
+	.work-item p {
+		min-height: 3em;
 	}
