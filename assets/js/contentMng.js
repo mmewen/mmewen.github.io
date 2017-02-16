@@ -238,6 +238,7 @@
 		$("#projects").html("");
 		$("#projects").append(projectsContent);
 		$(".project-show").click(showProjectCaption);
+		$(".internal-link").click(goToLinkedProject);
 
 		// If link to an anchor
 		goToProject();
@@ -402,34 +403,35 @@
 		$label.fadeOut( ANIMATION_DURATION );
 	}
 
-	var slideCaption = function(target, targetId){
-		$("#" + PROJECT_ID_PREFIX + targetId).addClass("active");
-		$("#" + PROJECT_ID_PREFIX + targetId).slideDown(500);
+	// var slideCaption = function(target, targetId){
+	var slideCaption = function(id){
+		$("#" + PROJECT_ID_PREFIX + id).addClass("active");
+		$("#" + PROJECT_ID_PREFIX + id).slideDown(500);
 
 		// left border x pos + width/2 + radius
 		// var pos = $(event.currentTarget).offset().left + $(event.currentTarget).innerWidth()/2 - 10;
-		var pos = $(target).offset().left + $(target).innerWidth()/2 - 10;
+		var pos = $("#a-" + id).offset().left + $("#a-" + id).innerWidth()/2 - 10;
 
-		$("#" + PROJECT_ID_PREFIX + targetId + ">.caption-arrow").css("left", pos + "px");
+		$("#" + PROJECT_ID_PREFIX + id + ">.caption-arrow").css("left", pos + "px");
 	}
 
 	var showProjectCaption = function (event) {
 		var id = $(event.currentTarget).first().attr('id').split("-")[1];
-		var target = event.currentTarget;
-		console.log(target);
+		// var target = event.currentTarget;
+		// console.log(target);
 
 		// $(".caption-container").removeClass("active");
 		// $("#" + PROJECT_ID_PREFIX + id).addClass("active"); // find the caption-container to show
 
-		var f = function(){
-			slideCaption(target, id);
-		};
+		changeProjectCaption(id);
+	}
 
+	var changeProjectCaption = function(id){
 		var opened = $(".caption-container.active");
 
 		if (opened.length > 0) {
-			console.log("Clicked :" + id);
-			console.log(opened.length + " opened :" + opened.first().attr('id').split("-")[1]);
+			// console.log("Clicked :" + id);
+			// console.log(opened.length + " opened :" + opened.first().attr('id').split("-")[1]);
 
 			opened.first().removeClass("active");
 			if (id == opened.first().attr('id').split("-")[1]) {
@@ -437,14 +439,18 @@
 				opened.slideUp(500);
 			} else {
 				// Close the previous caption, and next open the selected one
-				opened.slideUp(500, f);
+				opened.slideUp(500, function(){
+					// slideCaption(target, id);
+					slideCaption(id);
+				});
 			}
 
 			history.replaceState({}, "", window.location.href.split("#")[0]);
 
 			return false;
 		} else {
-			f();
+			// slideCaption(target, id);
+			slideCaption(id);
 
 			return true;
 		}
@@ -481,13 +487,23 @@
 		if (!!encodedAnchor && encodedAnchor.length > 0) {
 			let anchorName = decodeURIComponent(encodedAnchor);
 			let k = findKey(projects, x => x.en.title == anchorName);
-			console.log(k);
+			// console.log(k);
 			if (k != undefined) {
 				console.log("Going to " + projects[k].en.title);
-				let target = "#a-" + k;
-				slideCaption(target, k);
-				scrollTo(target);
+				slideCaption(k);
+				scrollTo("#a-" + k);
 			}
+		}
+	}
+
+	var goToLinkedProject = function(event){
+		let anchorName = $(event.currentTarget).first().attr("href").split("#")[1];
+		let k = findKey(projects, x => x.en.title == anchorName);
+		// console.log(k);
+		if (k != undefined) {
+			console.log("Going to " + projects[k].en.title);
+			changeProjectCaption(k);
+			scrollTo("#a-" + k);
 		}
 	}
 
