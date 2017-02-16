@@ -1,26 +1,24 @@
 {
 	"1" : {
 		"en": {
-			"title": "New Wave Radio 1",
-			"tags": ["Junior Association", "Local radio", "Youth council"],
-			"short_description": "Local radio set up with some teenagers of the area"
+			"title": "New Wave Radio",
+			"tags": ["Junior Association", "Local radio", "Youth council", "FM and Internet broadcast"],
+			"short_description": "Local radio set up with some teenagers"
 		},
 		"media": {
-			"type": "image",
+			"type": "null",
 			"content": ""
 		},
 		"meta": {
-			"location": "Paris",
-			"locationUrl": "http://www.openstreetmap.org/#map=13/48.8590/2.3770",
-			"date": "Fall 2014 to May 2015",
-			"hardware": ["Raspberry Pi", "Arduino"],
-			"software":["Node.js", "Firmata"]
+			"location": "Concarneau",
+			"locationUrl": "http://www.openstreetmap.org/node/3211500239",
+			"date": "from 2009 to 2012, 10 days of FM a year"
 		}
 	},
 	"2" : {
 		"en": {
 			"title": "Graphic design",
-			"tags": ["vector/bitmap", "layers", "CMYK/RGB", "web/print export", "color & light correction"],
+			"tags": ["Vector/bitmap", "Layers", "CMYK/RGB", "Web/print export", "Color & light correction"],
 			"short_description": "Creation and edition of pictures, posters, visual elements, logotypes, videos..."
 		},
 		"media": {
@@ -31,36 +29,102 @@
 			"software":["Gimp", "Inkscape", "Ps", "Ai", "Pr", "In"]
 		}
 	},
-	"3" : {
-		"en": {
-			"title": "Static websites",
-			"tags": ["Github Pages", "DNS configuration"],
-			"short_description": "TODO"
-		},
-		"media": {
-			"type": "image",
-			"content": ""
-		},
-		"meta": {
-			"software":["HTML5", "CSS3", "Javascript", "jQuery"]
-		}
-	},
 	"4" : {
 		"en": {
-			"title": "New Wave Radio",
-			"tags": ["Junior Association", "Local radio", "Youth council"],
-			"short_description": "Local radio set up with some teenagers of the area"
+			"title": "Student organizations",
+			"tags": ["Student events", "Services to students and associations", "Community-supported agriculture"],
+			"short_description": "Projects I have been involved in XXX while I was in Compiègne"
+		},
+		"media": {
+			"type": "null",
+			"content": ""
+		},
+		"meta": {
+			"location": "Compiègne",
+			"locationUrl": "http://www.openstreetmap.org/search?query=49.40051%2C2.79828",
+			"date": "Fall 2012 to June 2017"
+		}
+	},
+	"6" : {
+		"en": {
+			"title": "Websites",
+			"tags": ["Static and dynamic websites", "Hackathon", "Domain name"],
+			"short_description": "Realizations for personnal and student organizations purposes"
 		},
 		"media": {
 			"type": "image",
 			"content": ""
 		},
 		"meta": {
-			"location": "Paris",
-			"locationUrl": "http://www.openstreetmap.org/#map=13/48.8590/2.3770",
-			"date": "Fall 2014 to May 2015",
+			"hardware": ["Github Pages", "Student server"],
+			"software": ["JS/jQuery", "HTML", "CSS"]
+		}
+	},
+	"8" : {
+		"en": {
+			"title": "Gyrobot",
+			"tags": ["DIY", "Fast prototyping", "Webapp"],
+			"short_description": "A small home-made remote controlled robot"
+		},
+		"media": {
+			"type": "image",
+			"content": ""
+		},
+		"meta": {
+			"date": "Fall 2015",
 			"hardware": ["Raspberry Pi", "Arduino"],
-			"software":["Node.js", "Firmata"]
+			"software": ["Node.js", "Socket.IO", "jQuery", "Firmata"]
+		}
+	},
+	"10" : {
+		"en": {
+			"title": "Innovation program at the Shanghai University",
+			"tags": ["Entrepreneurship", "Project management", "Presentation skills", "Innovation process"],
+			"short_description": "\"Language, Culture and Innovation for Entrepreneurship\" at the UTSEUS"
+		},
+		"media": {
+			"type": "image",
+			"content": ""
+		},
+		"meta": {
+			"location": "Shanghai",
+			"locationUrl": "http://www.openstreetmap.org/node/621494639",
+			"date": "February to August 2016"
+		}
+	},
+	"12" : {
+		"en": {
+			"title": "Course projects",
+			"tags": ["Autonomous car-drone cooperation", "Object-Oriented Programming", "Database design"],
+			"short_description": "Some of the projects realized for the courses I attended at the UTC"
+		},
+		"media": {
+			"type": "image",
+			"content": ""
+		},
+		"meta": {
+			"location": "Compiègne",
+			"locationUrl": "http://www.openstreetmap.org/search?query=49.40051%2C2.79828",
+			"software":["C++", "UTC middleware", "ROS", "PHP", "PostgreSQL"]
+		}
+	},
+	"14" : {
+		"en": {
+			"title": "French Robotic Cup",
+			"tags": ["Autonomous robot", "Competition", "Student organization", "Fast prototyping"],
+			"short_description": "UTCoupe project to compete with our two autonomous robots"
+		},
+		"media": {
+			"type": "image",
+			"content": ""
+		},
+		"meta": {
+			"location": "La Ferté-Bernard",
+			"locationUrl": "http://www.openstreetmap.org/relation/107487",
+			"date": "Fall 2014 to mid-May 2015 and Fall 2016 to mid-May 2017",
+			"hardware": ["Intel NUC", "Hokuyo LiDAR", "Raspberry Pi", "Arduinos", "Wifi network"],
+			"software":["Node.js", "JS/jQuery", "Socket.IO", "C/C++", "Firmata"],
+			"github": "https://github.com/utcoupe"
 		}
 	}
 }

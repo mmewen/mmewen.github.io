@@ -1,0 +1,9 @@
+<p>
+This small two wheels remote controlled robot has been a little challenge I tackled XXX in my free time. The idea was to conceive and build a machine -more or less- from scratch : web app on the phone, communication with the robot, actuators control, drawing and building the chassis using fast prototyping techniques.
+</p>
+<p>
+On the hardware side, a smartphone (the remote controller) connects to a hotspot broadcasted by a dongle plugged into a Raspberry Pi. This latter hosts all the code and controls 2 Arduinos using USB. The sensors are gyroscope (used to keep the chassis horizontally) and a camera (unused for now). Actuators are simply two DC motors and lights. The whole thing is powered using a power bank for the moment. 
+</p>
+<p>
+The software part is entirely in JavaScript : the main piece of software is in Node.js, the webapp uses jQuery, the communication goes through a Socket.IO websocket connection and the Arduino control uses Johnny-Five. This library communicates using the Firmata protocol which enables to manage the inputs and outputs of an Arduino.
+</p>

@@ -1,0 +1,5 @@
+Gyrobot
+
+Ce petit robot à deux roues télécommandé par smartphone a été un petit défi pour occuper mon temps libre. L'idée était de concevoir et de fabriquer un engin de zéro : web app sur le téléphone, communication avec le robot, contrôle des actionneurs, fabrication et assemblage du châssis...
+Du point de vue hardware, le smartphone se connecte au hotspot wifi émit par le dongle connecté à une Raspberry Pi. Celle-ci héberge la majorité du code et contrôle en USB 2 Arduinos. Les capteurs sont une webcam (inutilisée dans la première version) et un gyroscope (pour conserver une horizontalité du châssis). Les actionneurs sont deux moteurs à courant continu et un projecteur formé de LEDs. Le tout est alimenté par une batterie d'appoint de téléphone. 
+Le logiciel est codé en Node.js, la webapp en JavaScript (avec jQuery), la communication est assurée via la librairie Socket.io et le contrôle de l'Arduino via la librairie Johnny Five. Elle utilise le protocole Firmata, dont le code Standard Firmata est téléversé sur l'Arduino.
