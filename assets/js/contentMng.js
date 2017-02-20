@@ -517,7 +517,7 @@
 	$(function(){
 		detectBrowserLanguage();
 		updateLanguage();
-		getProjects(fillProjects);
+		// getProjects(fillProjects);
 		decipherMail();
 		// initResumeBlink();
 		$("#switchLanguage").click(switchLanguage);
