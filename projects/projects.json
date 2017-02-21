@@ -103,6 +103,7 @@
 			"content": ""
 		},
 		"meta": {
+			"date": "Fall 2015 to Spring 2017",
 			"location": "Compiègne",
 			"locationUrl": "http://www.openstreetmap.org/search?query=49.40051%2C2.79828",
 			"software":["C++", "UTC middleware", "ROS", "PHP", "PostgreSQL"]

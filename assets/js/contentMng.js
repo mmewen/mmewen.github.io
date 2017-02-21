@@ -56,6 +56,8 @@
 
 	var nbRequestToComeBack = 0;
 
+	var pageTitle = "";
+
 	// URI util
 	function get(name){
 		if(name=(new RegExp('[?&]'+encodeURIComponent(name)+'=([^&]*)')).exec(location.search))
@@ -403,8 +405,8 @@
 		$label.fadeOut( ANIMATION_DURATION );
 	}
 
-	// var slideCaption = function(target, targetId){
-	var slideCaption = function(id){
+	// var slideDownCaption = function(target, targetId){
+	var slideDownCaption = function(id){
 		$("#" + PROJECT_ID_PREFIX + id).addClass("active");
 		$("#" + PROJECT_ID_PREFIX + id).slideDown(500);
 
@@ -413,6 +415,28 @@
 		var pos = $("#a-" + id).offset().left + $("#a-" + id).innerWidth()/2 - 10;
 
 		$("#" + PROJECT_ID_PREFIX + id + ">.caption-arrow").css("left", pos + "px");
+
+		$("#a-"+id).addClass("minimize");
+
+		document.title = projects[id].en.title + " | " + pageTitle;
+	}
+
+	var slideUpCaption = function(openedId, cond, callback){
+		let opened = $("#" + PROJECT_ID_PREFIX + openedId); // $("#a-"+openedId);
+
+		$("#a-"+openedId).removeClass("minimize");
+		opened.removeClass("active");
+
+		// id == openedId
+		if (cond) {
+			// Just close the caption
+			opened.slideUp(500);
+		} else {
+			// Close the previous caption, and next open the selected one (= callback)
+			opened.slideUp(500, callback);
+		}
+
+		document.title = pageTitle;
 	}
 
 	var showProjectCaption = function (event) {
@@ -433,24 +457,18 @@
 			// console.log("Clicked :" + id);
 			// console.log(opened.length + " opened :" + opened.first().attr('id').split("-")[1]);
 
-			opened.first().removeClass("active");
-			if (id == opened.first().attr('id').split("-")[1]) {
-				// Just close the caption
-				opened.slideUp(500);
-			} else {
-				// Close the previous caption, and next open the selected one
-				opened.slideUp(500, function(){
-					// slideCaption(target, id);
-					slideCaption(id);
+			let openedId = opened.first().attr('id').split("-")[1];
+			slideUpCaption(openedId, openedId == id, function(){
+					slideDownCaption(id);
 				});
-			}
+
 
 			history.replaceState({}, "", window.location.href.split("#")[0]);
 
 			return false;
 		} else {
-			// slideCaption(target, id);
-			slideCaption(id);
+			// slideDownCaption(target, id);
+			slideDownCaption(id);
 
 			return true;
 		}
@@ -490,7 +508,7 @@
 			// console.log(k);
 			if (k != undefined) {
 				console.log("Going to " + projects[k].en.title);
-				slideCaption(k);
+				slideDownCaption(k);
 				scrollTo("#a-" + k);
 			}
 		}
@@ -515,6 +533,7 @@
 
 	// Document on load.
 	$(function(){
+		pageTitle = document.title;
 		detectBrowserLanguage();
 		updateLanguage();
 		getProjects(fillProjects);
