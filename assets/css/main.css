@@ -3317,7 +3317,8 @@
 		opacity: 1.0;
 	}
 
-	.image.center {
+	.image.center,
+	.myvideo.center {
 		max-width: 100%;
 		position: relative;
 	    margin: 0 auto 1em auto;
@@ -3325,13 +3326,19 @@
 		display: block;
 	}
 
-	.image.left.half,
-	.image.right.half {
-		max-width: calc(50% - 1.5em);
-	}
-
 	.image.center img {
 		width: 100%;
+	}
+
+	.myvideo iframe {
+		width: 100%;
+		margin-top: 0.5em;
+	}
+
+
+	.left.half,
+	.right.half {
+		max-width: calc(50% - 1.5em);
 	}
 
 	.nofilter:before {
