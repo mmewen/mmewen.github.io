@@ -94,19 +94,19 @@
 	},
 	"12" : {
 		"en": {
-			"title": "Course projects",
-			"tags": ["Autonomous car-drone cooperation", "Object-Oriented Programming", "Database design"],
-			"short_description": "Some of the projects realized for the courses I attended at the UTC"
+			"title": "Autonomous car and drone collaboration challenge",
+			"tags": ["Renault Zoé EV", "Bebop 2 drone", "Driverless vehicle", "Course project"],
+			"short_description": "Hands-off valet parking drone-car course project"
 		},
 		"media": {
 			"type": "image",
 			"content": ""
 		},
 		"meta": {
-			"date": "Fall 2015 to Spring 2017",
+			"date": "Fall 2016",
 			"location": "Compiègne",
 			"locationUrl": "http://www.openstreetmap.org/search?query=49.40051%2C2.79828",
-			"software":["C++", "UTC middleware", "ROS", "PHP", "PostgreSQL"]
+			"software":["C++", "Pacpus UTC middleware", "ROS"]
 		}
 	},
 	"14" : {
