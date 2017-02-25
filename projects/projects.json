@@ -92,6 +92,24 @@
 			"date": "February to August 2016"
 		}
 	},
+	"11" : {
+		"en": {
+			"title": "nebulæ",
+			"tags": ["Virtual reality experience", "Unusual physics", "Actor/spectator point of view"],
+ 			"short_description": "A VR experience dedicated to dance in a universe of particles"
+		},
+		"media": {
+			"type": "image",
+			"content": ""
+		},
+		"meta": {
+			"date": "Fall 2016",
+			"location": "Compiègne",
+			"locationUrl": "http://www.openstreetmap.org/search?query=49.40051%2C2.79828",
+			"software":["C#", "Unity"],
+			"hardware": ["Cave", "HTC Vive"]
+		}
+	},
 	"12" : {
 		"en": {
 			"title": "Autonomous car and drone collaboration challenge",
