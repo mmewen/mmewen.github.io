@@ -203,9 +203,9 @@
 			// Set div to left of right
 			// left is without '$', right has it
 			// if ((nbProjects - i + 1) % 2 == 0) { // if right
-			if (isRight) {
-				txt = txt.replace("6u", "6u$");
-			}
+			// if (isRight) {
+			// 	txt = txt.replace("6u", "6u$");
+			// }
 
 			// Fill content of the project
 			var content = projects[id][settings.language];
@@ -447,7 +447,7 @@
 		// $(".caption-container").removeClass("active");
 		// $("#" + PROJECT_ID_PREFIX + id).addClass("active"); // find the caption-container to show
 
-		changeProjectCaption(id);
+		return changeProjectCaption(id);
 	}
 
 	var changeProjectCaption = function(id){
