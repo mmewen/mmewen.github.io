@@ -3275,7 +3275,7 @@
 
 	#resumeBtn {
 		float: right;
-		top: -4em; /* ugh, ugly */
+		top: -3em; /* ugh, ugly */
 		position: relative;
 	}
 
