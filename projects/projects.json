@@ -124,7 +124,8 @@
 			"date": "Fall 2016",
 			"location": "Compiègne",
 			"locationUrl": "http://www.openstreetmap.org/search?query=49.40051%2C2.79828",
-			"software":["C++", "Pacpus UTC middleware", "ROS"]
+			"software":["C++", "Pacpus UTC middleware", "ROS"],
+			"hardware":["Renault Zoé EV", "dSPACE MicroAutoBox", "Parrot Bebob 2", "NovAtel SPAN GNSS"]
 		}
 	},
 	"14" : {
