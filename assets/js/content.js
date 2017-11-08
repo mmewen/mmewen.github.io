@@ -18,12 +18,11 @@ var info = {
 	"#info-presentation": {
 		"en": "Hello! I am <strong>Mewen M.</strong>,<br />\
 			French computer science &\
-			embedded systems engineering student\
-			at the <a href='https://www.utc.fr/en.html'>UTC</a>.",
+			embedded systems engineer<br/>\
+			of the <a href='https://www.utc.fr/en.html'>UTC</a>.",
 		"fr": "Bonjour ! Je suis <strong>Mewen M.</strong>,<br />\
-			étudiant ingénieur<br />\
-			en informatique embarquée</br>\
-			à l'<a href='https://www.utc.fr'>UTC</a>."
+			ingénieur en informatique embarquée</br>\
+			de l'<a href='https://www.utc.fr'>UTC</a>."
 	},
 	"#switchLanguage": {
 		"en": "<a href='#' id='switchLanguage'>Version en Français</a>",
