@@ -19,7 +19,7 @@ var info = {
 		"en": "Hello! I am <strong>Mewen M.</strong>,<br />\
 			French computer science &\
 			embedded systems engineer<br/>\
-			of the <a href='https://www.utc.fr/en.html'>UTC</a>.",
+			from the <a href='https://www.utc.fr/en.html'>UTC</a>.",
 		"fr": "Bonjour ! Je suis <strong>Mewen M.</strong>,<br />\
 			ingénieur en informatique embarquée</br>\
 			de l'<a href='https://www.utc.fr'>UTC</a>."
